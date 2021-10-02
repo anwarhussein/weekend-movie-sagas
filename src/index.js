@@ -14,6 +14,20 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
+    yield takeEvery('FETCH_MOVIE_DETAILS',fetchMovieDetail);
+}
+
+function* fetchMovieDetail(action){
+    try{
+        const movie = action.payload;
+        const movieDetails = yield axios.get(`/api/movie/detail${movie.id}`);
+        yield put({type: 'SET_MOVIE_DETAIL', payload: movieDetails.data})
+
+    }catch(error){
+        console.log("Error in fetchMovieDetails", error);
+        alert('Unable to get movie details');
+
+    }
 }
 
 function* fetchAllMovies() {
@@ -41,6 +55,14 @@ const movies = (state = [], action) => {
             return state;
     }
 }
+const selectedMovie = (state= {}, action) =>{
+    switch(action.type) {
+        case 'SET_MOVIE_DETAIL':
+            return action.payload;
+        default:
+            return state;
+    }
+}
 
 // Used to store the movie genres
 const genres = (state = [], action) => {
@@ -55,6 +77,7 @@ const genres = (state = [], action) => {
 // Create one store that all components can use
 const storeInstance = createStore(
     combineReducers({
+        selectedMovie,
         movies,
         genres,
     }),
