@@ -14,16 +14,16 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
-    yield takeEvery('FETCH_MOVIE_DETAILS',fetchMovieDetail);
+    yield takeEvery('FETCH_MOVIE_DETAILS', fetchMovieDetail);
 }
 
-function* fetchMovieDetail(action){
-    try{
+function* fetchMovieDetail(action) {
+    try {
         const movie = action.payload;
         const movieDetails = yield axios.get(`/api/movie/detail/${movie.id}`);
-        yield put({type: 'SET_MOVIE_DETAIL', payload: movieDetails.data})
+        yield put({ type: 'SET_MOVIE_DETAIL', payload: movieDetails.data })
 
-    }catch(error){
+    } catch (error) {
         console.log("Error in fetchMovieDetails", error);
         alert('Unable to get movie details');
 
@@ -40,7 +40,7 @@ function* fetchAllMovies() {
     } catch {
         console.log('get all error');
     }
-        
+
 }
 
 // Create sagaMiddleware
@@ -55,8 +55,8 @@ const movies = (state = [], action) => {
             return state;
     }
 }
-const selectedMovie = (state= {}, action) =>{
-    switch(action.type) {
+const selectedMovie = (state = {}, action) => {
+    switch (action.type) {
         case 'SET_MOVIE_DETAIL':
             return action.payload;
         default:
@@ -91,7 +91,7 @@ sagaMiddleware.run(rootSaga);
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={storeInstance}>
-        <App />
+            <App />
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')
