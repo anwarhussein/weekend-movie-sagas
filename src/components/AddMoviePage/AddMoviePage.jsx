@@ -6,6 +6,16 @@ function AddMoviePage() {
     const [movieTitle, setMovieTitle] = useState('')
     const [moviePoster, setMoviePoster] = useState('')
     const [movieDescription, setMovieDescription] = useState('')
+    let genreOptions = [
+        {name:'adventure', value: 'Adventure' },{name:'animated',value: null},
+        {name:'biographical',value: null},{name:'comedy',value:null},
+        {name:'disaster',value: null},{name:'drama',value:null},
+        {name:'epic',value: null},{name:'fantasy',value:null},
+        {name:'musical',value: null},{name:'romantic',value:null},
+        {name:'science fiction',value: null},{name:'space-opera',value:null}
+    ]
+
+    const [selectOption, setSelectOption] = useState(genreOptions[0]);
 
     return (
         <div>
@@ -32,19 +42,13 @@ function AddMoviePage() {
 
                 </textarea>
                 <label htmlFor="Genres">Choose a Genre</label>
-                <select name="genres" id="genres">
-                    <option value="adventure">Adventure</option>
-                    <option value="animated">Animated</option>
-                    <option value="biographical">Biographical</option>
-                    <option value="comedy">Comedy</option>
-                    <option value="disaster">Disaster</option>
-                    <option value="drama">Drama</option>
-                    <option value="epic">Epic</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="musical">Musical</option>
-                    <option value="romantic">Romantic</option>
-                    <option value="science fiction">Science Fiction</option>
-                    <option value="space-opera">Space-Opera</option>
+                <select name="genres" 
+                value={selectOption}
+                onChange={(event =>setSelectOption(event.target.value))}>
+                {genreOptions.map((o) =>{
+                    return<option key={o.value} value={o.value}></option>
+                })}
+                   
                 </select>
 
                 <button>Save</button>
