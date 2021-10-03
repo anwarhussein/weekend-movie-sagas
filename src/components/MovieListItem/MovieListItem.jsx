@@ -15,6 +15,7 @@ function MovieListItem({ movie }) {
         <div key={movie.id} >
             <h3>{movie.title}</h3>
             <img onClick={viewMovieDetails} src={movie.poster} alt={movie.title} />
+            
         </div>
     )
 }
