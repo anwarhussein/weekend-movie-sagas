@@ -1,25 +1,24 @@
-import React from 'react'
-import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 
-function MovieListItem({movie}) {
+function MovieListItem({ movie }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    
-    const viewMovieDetails = () =>{
-        dispatch({type: 'FETCH_MOVIE_DETAILS', payload: movie});
+
+    const viewMovieDetails = () => {
+        dispatch({ type: 'FETCH_MOVIE_DETAILS', payload: movie });
         history.push('/detail');
     }
 
     return (
-        <div ><button onClick={viewMovieDetails}>View Details</button>
+        <div key={movie.id} >
             <h3>{movie.title}</h3>
-            <img src={movie.poster} alt={movie.title}   />
+            <img onClick={viewMovieDetails} src={movie.poster} alt={movie.title} />
         </div>
     )
 }
 
 
 
-export default MovieListItem
+export default MovieListItem;
