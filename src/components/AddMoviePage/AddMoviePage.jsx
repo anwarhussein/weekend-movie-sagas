@@ -64,7 +64,7 @@ function AddMoviePage() {
                 <textarea name="movie description"
                     cols="" rows=""
                     value={movieDescription}
-                    onMouseOver={(event) => setMovieDescription(event.target.value)}>
+                    onChange={(event) => setMovieDescription(event.target.value)}>
 
                 </textarea>
                 <label htmlFor="Genres">Choose a Genre</label>
