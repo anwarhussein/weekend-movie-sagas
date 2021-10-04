@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-function AddMoviePage({ movie }) {
+function AddMoviePage() {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -11,7 +11,7 @@ function AddMoviePage({ movie }) {
     const [moviePoster, setMoviePoster] = useState('')
     const [movieDescription, setMovieDescription] = useState('')
 
-    const [selectOption] = useState([
+    const [genres] = useState([
         {name:'Adventure', value: 'Adventure'}, {name:'Animated', value: 'Animated'},
         {name:'Biographical', value: 'Biographical'}, {name:'Comedy', value: 'Comedy'},
         {name:'Disaster', value: 'Disaster'}, {name:'Drama', value: 'Drama'},
@@ -29,8 +29,11 @@ function AddMoviePage({ movie }) {
                 poster: moviePoster,
                 description: movieDescription
             }
+        
 
         });
+        dispatch({type:'POST_GENRE_TO_SERVER',
+                  payload: genres.entries});
         setMovieTitle('');
         setMoviePoster('');
         setMovieDescription('');
@@ -40,7 +43,6 @@ function AddMoviePage({ movie }) {
     const handleCancel = () => {
         history.push('/')
     }
-
     return (
         <div>
             <h2>Add Movie</h2>
@@ -66,23 +68,9 @@ function AddMoviePage({ movie }) {
 
                 </textarea>
                 <label htmlFor="Genres">Choose a Genre</label>
-                <select name="genres"
-                    // onSelect={(event) => setSelectOption(event.target.value)}
-                    >
-                    {/* <option value="adventure"></option>
-                    <option value="animated"></option>
-                    <option value="biographical"></option>
-                    <option value="comedy"></option>
-                    <option value="disaster"></option>
-                    <option value="drama"></option>
-                    <option value="epic"></option>
-                    <option value="fantasy"></option>
-                    <option value="musical"></option>
-                    <option value="romantic"></option>
-                    <option value="science fiction"></option>
-                    <option value="space-opera"></option> */}
-
-                    {selectOption.map(item =>(
+                <select name="genres">
+                
+                    {genres.map(item =>(
                         <option
                         key={item.value}
                         value={item.value}
