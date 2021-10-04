@@ -1,29 +1,45 @@
 import React from 'react'
 import { useState } from 'react'
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
-function AddMoviePage({movie}) {
+function AddMoviePage({ movie }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
     const [movieTitle, setMovieTitle] = useState('')
     const [moviePoster, setMoviePoster] = useState('')
     const [movieDescription, setMovieDescription] = useState('')
-    
-    const [selectOption, setSelectOption] = useState('');
-    
-    const handleSave = () =>{
-        dispatch({type: 'FETCH_MOVIE', 
-                 payload:{title:movieTitle,
-                         poster:moviePoster,
-                         description:movieDescription,
-                         option:selectOption} 
-                        });
-       history.push('/');
+
+    const [selectOption] = useState([
+        {name:'Adventure', value: 'Adventure'}, {name:'Animated', value: 'Animated'},
+        {name:'Biographical', value: 'Biographical'}, {name:'Comedy', value: 'Comedy'},
+        {name:'Disaster', value: 'Disaster'}, {name:'Drama', value: 'Drama'},
+        {name:'Epic', value: 'Epic'},  {name:'Fantasy', value: 'Fantasy'},
+        {name:'Musical', value: 'Musical'},  {name:'Romantic', value: 'Romantic'},
+        {name:'Science fiction', value: 'Science fiction'}, {name:'Space-opera', value: 'Space-opera'}
+
+    ]);
+
+    const handleSave = () => {
+        dispatch({
+            type: 'POST_MOVIE_TO_SERVER',
+            payload: {
+                title: movieTitle,
+                poster: moviePoster,
+                description: movieDescription
+            }
+
+        });
+        setMovieTitle('');
+        setMoviePoster('');
+        setMovieDescription('');
+        history.push('/');
     }
-    
-    
+
+    const handleCancel = () => {
+        history.push('/')
+    }
 
     return (
         <div>
@@ -51,22 +67,30 @@ function AddMoviePage({movie}) {
                 </textarea>
                 <label htmlFor="Genres">Choose a Genre</label>
                 <select name="genres"
-                    value={selectOption}
-                    onSelect={(event) => setSelectOption(event.target.value)}>
-                    <option value="adventure">Adventure</option>
-                    <option value="animated">Animated</option>
-                    <option value="biographical">Biographical</option>
-                    <option value="comedy">Comedy</option>
-                    <option value="disaster">Disaster</option>
-                    <option value="drama">Drama</option>
-                    <option value="epic">Epic</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="musical">Musical</option>
-                    <option value="romantic">Romantic</option>
-                    <option value="science fiction">Science Fiction</option>
-                    <option value="space-opera">Space-Opera</option>
+                    // onSelect={(event) => setSelectOption(event.target.value)}
+                    >
+                    {/* <option value="adventure"></option>
+                    <option value="animated"></option>
+                    <option value="biographical"></option>
+                    <option value="comedy"></option>
+                    <option value="disaster"></option>
+                    <option value="drama"></option>
+                    <option value="epic"></option>
+                    <option value="fantasy"></option>
+                    <option value="musical"></option>
+                    <option value="romantic"></option>
+                    <option value="science fiction"></option>
+                    <option value="space-opera"></option> */}
 
-                  
+                    {selectOption.map(item =>(
+                        <option
+                        key={item.value}
+                        value={item.value}
+                        >
+                            {item.name}
+                        </option>
+                    ))}
+                    
                 </select>
 
                 <button onClick={handleSave}>Save</button>
